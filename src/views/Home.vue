@@ -2,7 +2,7 @@
 
   <div class="home">
 
-    <Navbar></Navbar> 
+    <Navbar/>
     <Hero/>
     <Products/>
 
