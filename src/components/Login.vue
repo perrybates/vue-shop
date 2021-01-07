@@ -21,21 +21,34 @@
                         <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
                             
                             <h5 class="text-center">Login Please</h5>
+                            
+                            
+                            
+                            
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Email address</label>
-                                <input type="email"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                                <input type="email" v-model="email"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
                                 <small class="form-text text-muted">We'll never share your email with anyone else.</small>
                             </div>
+                            
+                            
+                            
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Password</label>
                                 <input type="password" @keyup.enter="login" v-model="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                             </div>
 
+                            
                              <div class="form-group">
-                                <button class="btn btn-primary" >Login</button>
+                                <button class="btn btn-primary"  @click=login>Login</button>
                             </div>
 
                         </div>
+
+
+
+
+
                         <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="pills-register-tab">
                             
                              <h5 class="text-center">Create New Account</h5>
@@ -82,19 +95,34 @@ export default {
 
     data(){
         return {
-            name: null,
-            email: null,
-            password: null
+            name: 'null',
+            email: 'null',
+            password: 'null'
         
         }
     },
 
     methods: {
-
+        login(){
+            fb.auth().signInWithEmailAndPassword(this.email, this.password)
+                    .then(()=>{
+                        this.$router.replace('admin')
+                    })
+                    .catch(function(error) {
+                // Handle Errors here.
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        if (errorCode === 'auth/wrong-password') {
+                            alert('Wrong password.');
+                        } else {
+                            alert(errorMessage);
+                        }
+                        console.log(error);
+});
+        },
         register(){
             fb.auth().createUserWithEmailAndPassword(this.email, this.password)
                 .then(()=>{
-                    $('#login').model('hide')
                     this.$router.replace('admin')
                 })
                 .catch(function(error) {

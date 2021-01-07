@@ -16,7 +16,7 @@
                         <span class="user-name">Perry
                             <strong>Bates</strong>
                         </span>
-                        <span class="user-role"> {{email}} </span>
+                        <span class="user-role"></span>
 
                     </div>
                 </div>
@@ -62,7 +62,7 @@
                                 </router-link>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="#" @click="logout()">
                                     
                                     <span>Logout</span>
                                 </a>
@@ -89,7 +89,7 @@
 // @ is an alias to /src
 
 // import Hero from "@/components/Hero.vue";
-
+import {fb} from '../firebase'
 
 
 export default {
@@ -97,6 +97,18 @@ export default {
   components: {
     // Hero
     
+  },
+
+  methods:{
+      logout(){
+          fb.auth().signOut()
+          .then(()=>{
+              this.$router.replace('/')
+          })
+          .catch((err)=>{
+              console.log(err)
+          }) 
+      }
   }
 }
 </script>
